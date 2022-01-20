@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+long int n,m,ch,l,r,x,w,q,y;
+long long bit[1024][1024],mat[1024][1024];
+void update (int x, int y, long long va)
+{
+	for (int i=x;i<n;i|=i+1) for (int j=y;j<n;j|=j+1) bit[i][j]+=va;
+}
+long long int sum (int x, int y)
+{
+	long long int kq=0;
+	for (int i=x;i>=0;i=(i&(i+1))-1) for (int j=y;j>=0;j=(j&(j+1))-1) kq+=bit[i][j];
+	return kq;
+}
+int main ()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	int t; cin>>t;
+	for (int cs=1;cs<=t;cs++)
+	{
+		cin>>n;
+		for (int i=0;i<n;i++) for (int j=0;j<n;j++) bit[i][j]=mat[i][j]=0;
+		char cmd[3];
+		while (cin>>cmd && cmd[0]!='E')
+		{
+			if (cmd[1]=='E')
+			{
+				int x,y,z; cin>>x>>y>>z;
+				if (mat[x][y]!=z) update(x,y,z-mat[x][y]), mat[x][y]=z;
+			}
+			else
+			{
+				int x1,y1,x2,y2;
+				cin>>x1>>y1>>x2>>y2;
+				cout<<sum(x2,y2)-sum(x1-1,y2)-sum(x2,y1-1)+sum(x1-1,y1-1)<<"\n";
+			}
+		}
+	}
+}

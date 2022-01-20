@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+long int n,m,ch,l,r,x,w,q,y;
+long long bit[400010];
+void update (int i, long long va)
+{
+	while (i<=n) bit[i]+=va, i+=(i&-i);
+}
+long long int sum (int i)
+{
+	long long int kq=0;
+	while (i>0) kq+=bit[i], i-=(i&-i);
+	return kq;
+}
+int main ()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	int t; cin>>t;
+	for (int cs=1;cs<=t;cs++)
+	{
+		cin>>n>>q;
+		memset(bit,0,sizeof(bit));
+		for (int i=1;i<=n;i++) cin>>x, update(i,x);
+		cout<<"Case "<<cs<<":\n";
+		while (q--)
+		{
+			cin>>ch;
+			if (ch==1)
+			{
+				cin>>x; x++;
+				long long kq=sum(x)-sum(x-1);
+				update(x,-kq);
+				cout<<kq<<"\n";
+			}
+			else if (ch==2)
+			{
+				cin>>x>>w; x++;
+				update(x,w);
+			}
+			else
+			{
+				cin>>x>>y; x++; y++;
+				long long kq=sum(y)-sum(x-1);
+				cout<<kq<<"\n";
+			}
+		}
+	}
+}
